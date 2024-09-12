@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Membership{% endblock %}
+{% load static %}
+{% block content %}
+<div class="container mt-5 mb-4">
+    <div class="row">
+        <!-- Image Section -->
+        <div class="col-md-6 d-flex align-items-center">
+            <img src="{% static 'img/membership.jpg' %}" alt="Membership" class="img-fluid rounded">
+        </div>
+        
+        <!-- Form Section -->
+        <div class="col-md-6">
+            <h3 class="mb-4">Create Membership</h3>
+
+            <!-- Display Messages -->
+            {% if messages %}
+                <div class="alert-container mb-4">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <!-- Membership Form -->
+            <div class="card p-4 shadow-sm border-light">
+                <form method="post" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    
+                    <!-- Display Non-field Errors -->
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger mb-3">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Form Fields -->
+                    <div class="mb-3">
+                        {{ form.membership_type }}
+                        {% if form.membership_type.help_text %}
+                            <div class="form-text">{{ form.membership_type.help_text }}</div>
+                        {% endif %}
+                        {{ form.membership_type.errors }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.start_date }}
+                        {% if form.start_date.help_text %}
+                            <div class="form-text">{{ form.start_date.help_text }}</div>
+                        {% endif %}
+                        {{ form.start_date.errors }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.end_date }}
+                        {% if form.end_date.help_text %}
+                            <div class="form-text">{{ form.end_date.help_text }}</div>
+                        {% endif %}
+                        {{ form.end_date.errors }}
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary w-100">Create Membership</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

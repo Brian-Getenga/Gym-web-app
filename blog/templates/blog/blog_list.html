@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog List{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Blog Posts</li>
+            </ol>
+        </nav>
+        
+        <h2 class="mb-4">Blog Posts</h2>
+        
+        <div class="row">
+            <!-- Left Column: Categories and Search Bar -->
+            <div class="col-md-3 mb-4">
+                <form method="GET" action="{% url 'blog:blog_list' %}">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="search" value="{{ search_query }}" placeholder="Search posts...">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="list-group">
+                    <h5 class="mb-3">Categories</h5>
+                    <a href="{% url 'blog:blog_list' %}" class="list-group-item list-group-item-action {% if not request.GET.category_id %}active{% endif %}">
+                        All Categories
+                    </a>
+                    {% for category in categories %}
+                        <a href="{% url 'blog:blog_list_by_category' category.id %}" class="list-group-item list-group-item-action {% if request.GET.category_id == category.id %}active{% endif %}">
+                            {{ category.name }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- Right Column: Blog Posts -->
+            <div class="col-md-9 mb-4">
+                <div class="row">
+                    {% for post in posts %}
+                        <div class="col-md-6 mb-4">
+                            <div class="card position-relative">
+                                {% if post.featured_image %}
+                                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="card-img-top product-image">
+                                {% endif %}
+                                <div class="card-body">
+                                    <h6 class="card-title"><a href="{% url 'blog:blog_post_detail' post.id %}">{{ post.title }}</a></h6>
+                                    <p class="card-text" style="font-size: 14.5px;">{{ post.excerpt }}</p>
+                                    <p class="card-text text-muted">By {{ post.author.username }} on {{ post.created_at|date:"F j, Y" }}</p>
+                                </div>
+                                <!-- Icons -->
+                                <div class="position-absolute d-flex flex-column align-items-center" style="top: 10px; right: 10px; font-size: 1.5rem;">
+                                    <a href="{% url 'blog:bookmark_post' post.id %}" class="text-info mb-2">
+                                        <i class="fa fa-bookmark"></i> <!-- Larger bookmark icon -->
+                                    </a>
+                                    <a href="{% url 'blog:like_post' post.id %}" class="text-danger">
+                                        <i class="fa fa-heart"></i> <!-- Larger heart icon -->
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="text-center">No blog posts available.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

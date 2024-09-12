@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Membership Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Membership Details</h1>
+
+    <!-- Display Membership Details -->
+    <div class="card p-4 shadow-sm border-light">
+        <h2 class="card-title">{{ membership.membership_type }}</h2>
+        <p><strong>Start Date:</strong> {{ membership.start_date }}</p>
+        <p><strong>End Date:</strong> {{ membership.end_date }}</p>
+        <p><strong>Status:</strong> {{ membership.is_active|yesno:"Active,Inactive" }}</p>
+        <a href="" class="btn btn-primary">Update Membership</a>
+    </div>
+</div>
+{% endblock %}

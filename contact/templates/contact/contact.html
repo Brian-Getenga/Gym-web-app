@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - Jerima Club{% endblock %}
+{% load static %}
+{% block content %}
+<div class="container-fluid mt-4 d-flex align-items-center" style="height: 90vh;">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Contact</li>
+            </ol>
+            </nav>
+        <h3 class="mb-4">Contact Us</h3>
+
+        {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="row" >
+            <!-- Image on the left -->
+            <div class="col-md-6 mb-4">
+                <img src="{% static 'img/contact.jpg' %}" alt="Contact Us" class="img-fluid rounded shadow">
+            </div>
+
+            <!-- Form on the right -->
+            <div class="col-md-6">
+                <form method="post" action="{% url 'contact' %}">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    
+                    <div class="form-group mb-3">
+                        {{ form.name }}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form.email }}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form.subject }}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form.message }}
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

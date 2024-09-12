@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero-section" style="background-image: url('{% static 'img/hero.jpg' %}');">
+    <div class="hero-content text-center">
+        <h1>Master the Art of Karate <br> With Expert Training</h1>
+        <p>Join our dojo to build strength, discipline, and confidence through karate.</p>
+        <div class="hero-buttons">
+            <a href="#join" class="btn btn-primary">Join Us</a>
+            <a href="#video" class="btn btn-secondary">Watch Introduction</a>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="statistics-section">
+    <div class="container">
+        <div class="row text-center mt-3" >
+            <div class="col-md-3">
+                <h2>50+</h2>
+                <p>Certified Instructors</p>
+            </div>
+            <div class="col-md-3">
+                <h2>2000+</h2>
+                <p>Students Trained</p>
+            </div>
+            <div class="col-md-3">
+                <h2>100+</h2>
+                <p>Karate Tournaments</p>
+            </div>
+            <div class="col-md-3">
+                <h2>30+</h2>
+                <p>Years of Excellence</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Us Section -->
+<section class="about-us-section">
+    <div class="container">
+        {% if about_us %}
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="about-image">
+                        <img src="{{ about_us.image.url }}" alt="About Us">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="about-content">
+                        <h2>{{ about_us.title }}</h2>
+                        <p>{{ about_us.description }}</p>
+                        <ul class="about-features">
+                            {% for feature in about_us.features %}
+                            <li><i class="fa fa-check-circle"></i> {{ feature }}</li>
+                            {% empty %}
+                            <li>No features available</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="text-muted">No information available about our dojo at this time.</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Programs Section -->
+<section class="programs-section">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="section-title">Our Karate Programs</h2>
+            <a href="{% url 'class_list' %}" class="btn btn-primary d-flex align-items-center">
+                <i class="fa fa-plus-circle mr-2"></i> More
+            </a>
+        </div>
+        <div class="row">
+            {% for class in classes %}
+            <div class="col-lg-4 col-md-6 mb-1 p-1">
+                <div class="card h-100 w-100 border-0 shadow-sm hover-shadow-lg m-0" style="outline: 1px solid darkgray;">
+                    <div class="card-body d-flex flex-column m-0">
+                        <h3 class="card-title h5 text-primary">{{ class.name }}</h3>
+                        <p class="card-text text-muted">{{ class.description }}</p>
+                        <h4 class="mt-3 h6 text-secondary">Schedule:</h4>
+                        <p class="card-text">{{ class.schedule }}</p>
+                        <div class="mt-auto">
+                            <p class="card-text font-weight-bold h6 text-success">Price: ${{ class.price }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p class="text-center text-muted">No classes available at this time.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Pricing Section -->
+<section class="pricing-section">
+    <div class="container">
+        <h2 class="section-title">Choose Your Plan</h2>
+        <div class="row justify-content-center">
+            {% for plan in plans %}
+            <div class="col-md-4">
+                <div class="pricing-card card shadow-sm border-0 mb-4">
+                    <div class="card-body text-center">
+                        <h3 class="card-title mb-4">{{ plan.name }}</h3>
+                        <p class="price mb-4">${{ plan.price }} <span class="text-muted">/ <br> {{ plan.billing_period }}</span></p>
+                        <ul class="pricing-features list-unstyled mb-4">
+                            {% for feature in plan.get_features_list %}
+                            <li><i class="fa fa-check-circle text-success"></i> {{ feature }}</li>
+                            {% endfor %}
+                        </ul>
+                        <a href="#join" class="btn btn-primary">Select Plan</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- instractors -->
+<div class="container instructors-section my-5">
+    <h3 class="section-title mb-4">Our Instructors</h3>
+    <div class="row">
+        {% for instructor in instructors %}
+            <div class="col-md-4 mb-4">
+                <div class="instructor-card card ">
+                    {% if instructor.photo %}
+                        <div class="instructor-image-wrapper">
+                            <img src="{{ instructor.photo.url }}" class="card-img-top instructor-image" alt="{{ instructor.name }}">
+                            <!-- Social Media Icons -->
+                            <div class="instructor-icons d-flex justify-content-center align-items-center">
+                                <a href="#" class="icon youtube" title="YouTube">
+                                    <i class="fab fa-youtube text-danger"></i>
+                                </a>
+                                <a href="#" class="icon x-twitter" title="X">
+                                    <i class="fab fa-x-twitter text-info"></i>
+                                </a>
+                                <a href="#" class="icon linkedin" title="LinkedIn">
+                                    <i class="fab fa-linkedin text-primary"></i>
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ instructor.name }}</h5>
+                        <p class="card-text text-muted">{{ instructor.bio }}</p>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="col-12">No instructors listed at this time.</p>
+        {% endfor %}
+    </div>
+</div>
+
+
+<!-- Testimonials Section -->
+<section class="testimonials-section">
+    <div class="container">
+        <h2 class="section-title">What Our Students Say</h2>
+        <div class="row">
+            {% for testimonial in testimonials %}
+            <div class="col-md-6">
+                <div class="testimonial">
+                    {% if testimonial.image %}
+                    <img src="{{ testimonial.image.url }}" alt="Photo of {{ testimonial.name }}" class="testimonial-img">
+                    {% endif %}
+                    <p>"{{ testimonial.testimony }}"</p>
+                    <p class="testimonial-author text-right">- {{ testimonial.name }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+<!-- Call to Action Section -->
+<section class="cta-section text-center mb-4">
+    <div class="container">
+        <h2>Ready to Join Our Karate Community?</h2>
+        <p>Sign up today and start your journey toward mastering karate and achieving your fitness goals.</p>
+        <a href="#join" class="btn btn-primary">Join Us Now</a>
+    </div>
+</section>
+
+{% endblock %}

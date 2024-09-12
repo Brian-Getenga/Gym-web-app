@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Classes & Programs{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Breadcrumbs -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Classes</li>
+        </ol>
+    </nav>
+    
+    <h3 class="mb-3  ">Classes & Programs</h3>
+
+    <div class="row gy-4">
+        {% for class in classes %}
+            <div class="col-lg-4 col-md-6 mb-1 p-1">
+                <div class="card h-100 w-100 border-0 shadow-sm hover-shadow-lg m-0">
+                    <div class="card-body d-flex flex-column m-0">
+                        <h3 class="card-title h5 text-primary">{{ class.name }}</h3>
+                        <p class="card-text text-muted">{{ class.description }}</p>
+                        <h4 class="mt-3 h6 text-secondary">Schedule:</h4>
+                        <p class="card-text">{{ class.schedule }}</p>
+                        <div class="mt-auto">
+                            <p class="card-text font-weight-bold h6 text-success">Price: ${{ class.price }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <p class="text-center text-muted">No classes available at this time.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

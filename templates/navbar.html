@@ -1,0 +1,62 @@
+<!-- templates/navbar.html -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg">
+    <a class="navbar-brand text-warning font-weight-bold" href="{% url 'home' %}">Jerima Club</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link text-light" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light" href="{% url 'product_list' %}">Store</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light" href="{% url 'blog:blog_list' %}">Blog</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light" href="{% url 'class_list' %}">Classes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light" href="{% url 'gallery' %}">Gallery</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light" href="{% url 'event_list' %}">Events</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light" href="{% url 'about' %}">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light" href="{% url 'contact' %}">Contact</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="{% url 'member_dashboard' %}">Member Portal</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="{% url 'cart' %}">
+                        <i class="fas fa-shopping-cart fa-lg"></i>
+                        {% if request.session.cart|length > 0 %}
+                            <span class="badge badge-danger">{{ request.session.cart|length }}</span>
+                        {% endif %}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="{% url 'logout' %}">
+                        <i class="fas fa-sign-out-alt fa-lg"></i>
+                    </a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="{% url 'login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="{% url 'signup' %}">Sign Up</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

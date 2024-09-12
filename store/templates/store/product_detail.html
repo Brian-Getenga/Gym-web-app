@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} - Jerima Club Store{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">{{ product.name }}</h1>
+    <div class="row">
+        <div class="col-md-6">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}">
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <div class="product-details">
+                <p class="lead">{{ product.description }}</p>
+                <p class="font-weight-bold">Price: ${{ product.price }}</p>
+                <p class="font-weight-bold">In Stock: {{ product.stock }}</p>
+                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success">Add to Cart</a>
+            </div>
+        </div>
+    </div>
+    <a href="{% url 'product_list' %}" class="btn btn-primary mt-4">Back to Store</a>
+</div>
+{% endblock %}

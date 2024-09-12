@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Jerima Club Gallery{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Gallery</li>
+        </ol>
+        </nav>
+    <h3 class="mb-4 ">Gallery</h3>
+
+    <div class="row">
+        {% for image in images %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="position-relative">
+                        <img src="{{ image.image.url }}" class="card-img-top rounded-top instructor-image " alt="{{ image.title }}">
+                        <!-- Icons -->
+                        <div class="position-absolute d-flex justify-content-center align-items-center w-100 h-100" style="top: 0; left: 0; background-color: rgba(0, 0, 0, 0.5); opacity: 0; transition: opacity 0.3s;">
+                            <a href="{{ image.image.url }}" class="text-primary mx-2" data-toggle="tooltip" title="View" style="font-size: 2rem;">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                            <a href="whatsapp://send?text={{ image.image.url }}" class="text-success mx-2" data-toggle="tooltip" title="Share" style="font-size: 2rem;">
+                                <i class="fa fa-share-alt"></i>
+                            </a>
+                            <a href="{{ image.image.url }}" download class="text-warning mx-2" data-toggle="tooltip" title="Download" style="font-size: 2rem;">
+                                <i class="fa fa-download"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-title  ">{{ image.title }}</h6>
+                        <p class="card-text text-muted">{{ image.description }}</p>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="col-12 text-center">No images in the gallery yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    // Ensure icons appear on hover
+    document.querySelectorAll('.position-relative').forEach(function(card) {
+        card.addEventListener('mouseover', function() {
+            this.querySelector('.position-absolute').style.opacity = 1;
+        });
+        card.addEventListener('mouseout', function() {
+            this.querySelector('.position-absolute').style.opacity = 0;
+        });
+    });
+</script>
+{% endblock %}

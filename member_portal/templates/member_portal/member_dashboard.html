@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}Member Dashboard - Jerima Club{% endblock %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5 " >
+    <h3 class="mb-4">Welcome, {{ user.username }}!</h3>
+
+    <!-- Profile Section -->
+    <div class="card mb-4  border-0" style="background-color: whitesmoke;">
+        <div class="card-body d-flex flex-column flex-md-row align-items-center ">
+            <div class="profile-image me-md-4">
+                {% if profile.image %}
+                    <img src="{{ profile.image.url }}" class="rounded-circle img-fluid" alt="Profile Image" style="width: 150px; height: 150px;">
+                {% else %}
+                    <img src="{% static 'img/hero.jpg' %}" class="rounded-circle img-fluid" alt="Default Profile Image" style="width: 150px; height: 150px;">
+                {% endif %}
+            </div>
+            <div class="profile-details ml-auto">
+                <h2 class="card-title">{{ user.get_full_name }}</h2>
+                <p><strong>Bio:</strong> {{ profile.bio }}</p>
+                <p><strong>Birth Date:</strong> {{ profile.birth_date|date:"F j, Y" }}</p>
+                <p><strong>Phone Number:</strong> {{ profile.phone_number }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <a href="{% url 'edit_profile' %}" class="btn btn-primary mt-3">Edit Profile</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievements Section -->
+    <h4 class="mb-4">Your Achievements</h4>
+    <div class="row">
+        {% for achievement in achievements %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100  border-0">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ achievement.title }}</h5>
+                        <p class="card-text">{{ achievement.description }}</p>
+                        <p class="card-text"><strong>Earned on:</strong> {{ achievement.date_earned|date:"F j, Y" }}</p>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center" role="alert">
+                    No achievements yet. Keep training!
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Training Progress Section -->
+    <h4 class="mb-4">Your Training Progress</h4>
+    <div class="card mb-4  border-0">
+        <div class="card-body">
+            <div class="progress" style="height: 30px;">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: {{ profile.training_progress }}%;" aria-valuenow="{{ profile.training_progress }}" aria-valuemin="0" aria-valuemax="100">{{ profile.training_progress }}%</div>
+            </div>
+            <p class="mt-3">You are {{ profile.training_progress }}% through your current belt level.</p>
+        </div>
+    </div>
+
+    <!-- Upcoming Events Section -->
+    <h4 class="mb-4">Upcoming Events</h4>
+    <div class="row">
+        {% for event in upcoming_events %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event.name }}</h5>
+                        <p class="card-text"><strong>Date:</strong> {{ event.date|date:"F j, Y" }}</p>
+                        <p class="card-text">{{ event.description }}</p>
+                        <a href="{% url 'event_detail' event.id %}" class="btn btn-outline-primary mt-3">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center" role="alert">
+                    No upcoming events. Stay tuned for updates!
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
